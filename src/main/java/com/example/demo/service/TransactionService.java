@@ -22,7 +22,7 @@ public class TransactionService {
 	private TransactionRepository transactionRepository;
 	@Autowired
     private EntityManager entityManager;
-	public void addNewTransaction(TransactionDTO transactionDTO, Users currentUser) {
+	public Long addNewTransaction(TransactionDTO transactionDTO, Users currentUser) {
 	    Transaction transaction = new Transaction();
 	    transaction.setTitle(transactionDTO.getTitle());
 	    transaction.setCategory(transactionDTO.getCategory());
@@ -35,6 +35,7 @@ public class TransactionService {
 	    transaction.setUser(currentUser);
 
 	    transactionRepository.save(transaction);
+		return transaction.getId();
 	}
 	public List<TransactionDTO> getAllTransactions() {
 		return transactionRepository.findAll().stream().map(trans -> {
