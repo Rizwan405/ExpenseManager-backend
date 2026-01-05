@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransactionService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.service</a> &gt; <span class="el_source">TransactionService.java</span></div><h1>TransactionService.java</h1><pre class="source lang-java linenums">package com.example.demo.service;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.Exceptions.ResourceNotFoundException;
+import com.example.demo.dto.TransactionDTO;
+import com.example.demo.model.Users;
+import com.example.demo.repository.TransactionRepository;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
+
+import com.example.demo.dto.UserDTO;
+import com.example.demo.model.Transaction;
+@Service
+<span class="fc" id="L20">public class TransactionService {</span>
+	@Autowired
+	private TransactionRepository transactionRepository;
+	@Autowired
+    private EntityManager entityManager;
+	public Long addNewTransaction(TransactionDTO transactionDTO, Users currentUser) {
+<span class="fc" id="L26">	    Transaction transaction = new Transaction();</span>
+<span class="fc" id="L27">	    transaction.setTitle(transactionDTO.getTitle());</span>
+<span class="fc" id="L28">	    transaction.setCategory(transactionDTO.getCategory());</span>
+<span class="fc" id="L29">	    transaction.setAmount(transactionDTO.getAmount());</span>
+<span class="fc" id="L30">	    transaction.setPaymentType(transactionDTO.getPaymentType());</span>
+<span class="fc" id="L31">	    transaction.setTransactionType(transactionDTO.getTransactionType());</span>
+<span class="fc" id="L32">	    transaction.setDate(transactionDTO.getDate());</span>
+
+	    // Associate transaction with user
+<span class="fc" id="L35">	    transaction.setUser(currentUser);</span>
+
+<span class="fc" id="L37">	    transactionRepository.save(transaction);</span>
+<span class="fc" id="L38">		return transaction.getId();</span>
+	}
+	public List&lt;TransactionDTO&gt; getAllTransactions() {
+<span class="fc" id="L41">		return transactionRepository.findAll().stream().map(trans -&gt; {</span>
+<span class="fc" id="L42">			UserDTO userDTO = new UserDTO();</span>
+<span class="fc" id="L43">			userDTO.setUsername(trans.getUser().getUsername());</span>
+			
+<span class="fc" id="L45">			userDTO.setId(trans.getUser().getId());</span>
+<span class="fc" id="L46">			TransactionDTO resDto = new TransactionDTO();</span>
+			
+<span class="fc" id="L48">			resDto.setId(trans.getId());</span>
+<span class="fc" id="L49">			resDto.setTitle(trans.getTitle());</span>
+<span class="fc" id="L50">			resDto.setAmount(trans.getAmount());</span>
+<span class="fc" id="L51">			resDto.setCategory(trans.getCategory());</span>
+<span class="fc" id="L52">			resDto.setPaymentType(trans.getPaymentType());</span>
+<span class="fc" id="L53">			resDto.setDate(trans.getDate());</span>
+<span class="fc" id="L54">			resDto.setTransactionType(trans.getTransactionType());</span>
+<span class="fc" id="L55">			resDto.setUser(userDTO);</span>
+<span class="fc" id="L56">			return resDto;</span>
+<span class="fc" id="L57">		}).collect(Collectors.toList());</span>
+	}
+	@Transactional
+	public String deleteTransaction(Long id,Long userId) {
+<span class="fc" id="L61">        int affectedRows = transactionRepository.deleteByIdAndUserId(id, userId);</span>
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (affectedRows == 0) {</span>
+            // No matching transaction found, return an error message
+<span class="fc" id="L65">            return &quot;Transaction with id &quot; + id + &quot; not found for user with id &quot; + userId;</span>
+        }
+
+        // Successful deletion
+<span class="fc" id="L69">        return &quot;Transaction successfully deleted&quot;;</span>
+    }
+//		logic for updating the entity 
+	
+	public Transaction updateEntity(Long id,Long userId,TransactionDTO dto) {
+//		first need to find the entity that matches userid and id 
+<span class="fc" id="L75">		Transaction targeTransaction = transactionRepository.findByidAndUserId(id, userId).orElseThrow(()-&gt; new ResourceNotFoundException(&quot;Target entity not found&quot;));</span>
+//		doing the functions and then save 
+		
+<span class="fc" id="L78">		targeTransaction.setTitle(dto.getTitle());</span>
+<span class="fc" id="L79">		targeTransaction.setPaymentType(dto.getPaymentType());</span>
+<span class="fc" id="L80">		targeTransaction.setAmount(dto.getAmount());</span>
+<span class="fc" id="L81">		targeTransaction.setTransactionType(dto.getTransactionType());</span>
+<span class="fc" id="L82">		targeTransaction.setDate(dto.getDate());</span>
+<span class="fc" id="L83">		targeTransaction.setCategory(dto.getCategory());</span>
+<span class="fc" id="L84">		transactionRepository.save(targeTransaction);</span>
+<span class="fc" id="L85">		return targeTransaction;</span>
+		
+		
+	}
+
+		
+	}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

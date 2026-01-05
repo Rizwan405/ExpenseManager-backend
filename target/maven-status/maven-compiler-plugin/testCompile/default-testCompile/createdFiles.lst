@@ -1,0 +1,7 @@
+com/example/demo/repository/UserRepoTest.class
+com/example/demo/service/JWTServiceTest.class
+com/example/demo/service/TransactionServiceTest.class
+com/example/demo/repository/TransactionRepositoryTest.class
+com/example/demo/service/CustomUserDetailTest.class
+com/example/demo/DemoApplicationTests.class
+com/example/demo/controller/TestControllerTest.class
