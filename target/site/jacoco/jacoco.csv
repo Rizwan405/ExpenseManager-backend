@@ -7,17 +7,10 @@ demo,com.example.demo.Exceptions,ResourceNotFoundException,0,4,0,0,0,2,0,1,0,1
 demo,com.example.demo.controller,TestController,100,35,4,2,21,10,6,5,4,4
 demo,com.example.demo.controller,BaseController,10,3,0,0,3,1,1,1,1,1
 demo,com.example.demo.model,PaymentType,0,21,0,0,0,4,0,1,0,1
-demo,com.example.demo.model,Transaction.TransactionBuilder,23,63,0,0,0,1,1,10,1,10
 demo,com.example.demo.model,CategoryType,0,39,0,0,0,7,0,1,0,1
-demo,com.example.demo.model,Users,165,60,38,0,0,9,23,11,4,11
 demo,com.example.demo.model,TransactionType,0,15,0,0,0,3,0,1,0,1
-demo,com.example.demo.model,Transaction,293,90,64,0,0,12,36,19,4,19
-demo,com.example.demo.model,Users.UsersBuilder,16,30,0,0,0,1,2,5,2,5
 demo,com.example.demo.model,UserPrincipal,27,0,0,0,11,0,9,0,9,0
 demo,com.example.demo.config,SecurityConfig.new WebMvcConfigurer() {...},0,62,0,0,0,7,0,2,0,2
 demo,com.example.demo.config,SecurityConfig,0,70,0,0,0,16,0,7,0,7
 demo,com.example.demo.config,JWTfilter,69,3,10,0,16,1,6,1,1,1
 demo,com.example.demo,DemoApplication,5,3,0,0,2,1,1,1,1,1
-demo,com.example.demo.dto,TransactionDTO.TransactionDTOBuilder,23,63,0,0,0,1,1,10,1,10
-demo,com.example.demo.dto,TransactionDTO,287,87,58,0,1,11,34,18,5,18
-demo,com.example.demo.dto,UserDTO,101,14,16,0,2,3,14,4,6,4
